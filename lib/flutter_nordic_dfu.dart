@@ -13,9 +13,8 @@ class FlutterNordicDfu {
   /// [filePath] zip file path
   /// [name] device name
   /// [progressListener] Dfu progress listener
-  static Future<String> startDfu(String address, String filePath,
-      {String name,
-      DfuProgressListenerAdapter progressListener}) async {
+  static startDfu(String address, String filePath,
+      {String name, DfuProgressListenerAdapter progressListener}) async {
     _channel.setMethodCallHandler((MethodCall call) {
       switch (call.method) {
         case "onDeviceConnected":
@@ -71,11 +70,8 @@ class FlutterNordicDfu {
       }
     });
 
-    return await _channel.invokeMethod('startDfu', <String, dynamic>{
-      'address': address,
-      'filePath': filePath,
-      'name': name
-    });
+    _channel.invokeMethod(
+        'startDfu', {'address': address, 'filePath': filePath, 'name': name});
   }
 }
 
